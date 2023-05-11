@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AttractionController!{% endblock %}
+
+{% block body %}
+
+    <h2>Index</h2>
+
+    {% for attraction in attractions %}
+        <a href="{{ path('app_attraction_view', {id: attraction.id}) }}">
+            {{ attraction.id }} - {{ attraction.name }}
+        </a>
+        <br/>
+    {% endfor %}
+{% endblock %}
