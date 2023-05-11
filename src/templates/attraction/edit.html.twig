@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AttractionController!{% endblock %}
+
+{% block body %}
+
+    <h2>New</h2>
+
+    <form method="post">
+        <label>
+            Name:
+            <input type="text" name="name" value="{{ attraction.name }}">
+        </label>
+
+        <br/>
+        <label>
+            Short Description:
+            <textarea name="short_description">
+                {{ attraction.shortDescription }}
+            </textarea>
+        </label>
+
+        <br/>
+        <label>
+            Full Description:
+            <textarea name="full_description">
+                {{ attraction.fullDescription }}
+            </textarea>
+        </label>
+
+        <br/>
+        <label>
+            Score:
+            <input type="number" name="score" value="{{ attraction.score }}" min="0" max="10">
+        </label>
+
+        <br/>
+        <input type="submit" value="Submit">
+
+    </form>
+{% endblock %}

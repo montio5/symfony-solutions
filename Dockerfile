@@ -33,6 +33,9 @@ RUN npm install --global yarn
 RUN pecl install xdebug && docker-php-ext-enable xdebug
 COPY docker/php/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
+# enable apache rewrite module
+RUN a2enmod rewrite
+
 # set the document root in apache config
 # https://stackoverflow.com/a/51457728/1593188
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
