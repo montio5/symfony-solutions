@@ -25,9 +25,12 @@ RUN apt-get install -y libicu-dev
 RUN docker-php-ext-configure intl && docker-php-ext-install intl
 
 # install npm
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+#ENV NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+#RUN [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+#RUN nvm install --lts
 RUN apt-get -y install nodejs npm
 RUN npm install --global yarn
-
 # install xdebug
 # https://hub.docker.com/_/php
 RUN pecl install xdebug && docker-php-ext-enable xdebug

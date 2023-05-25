@@ -6,4 +6,4 @@ controllers:
 
 app_home_about:
     controller: \App\Controller\HomeController::about
-    path: /about
+    path: /
