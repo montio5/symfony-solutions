@@ -5,6 +5,11 @@
 {% block body %}
     <h1>Hotel index</h1>
 
+    <form method="get" action="{{ path('app_hotel_search') }}">
+        <input type="text" name="q" value="{{ q|default('') }}"/>
+        <input type="submit" value="Search">
+    </form>
+
     <table class="table">
         <thead>
             <tr>

@@ -15,8 +15,16 @@
     {% endblock %}
 </head>
 <body>
-<img src="{{ asset('build/images/web-1873373_1280.webp') }}" alt="web" width="30">
-<h1>Tehran Gardesh</h1>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <img src="{{ asset('build/images/web-1873373_1280.webp') }}" alt="web" width="20">
+            Tehran Gardesh
+        </a>
+        {{ knp_menu_render('main') }}
+    </div>
+</nav>
+
 {% block body %}{% endblock %}
 </body>
 </html>
