@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Hotel;
 use App\Form\HotelType;
+use App\Hotel\SearchService;
 use App\Repository\HotelRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,6 +14,16 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/hotel')]
 class HotelController extends AbstractController
 {
+    #[Route('/search', name: 'app_hotel_search', methods: ['GET'])]
+    public function search(Request $request, SearchService $hotelSearchService): Response {
+        $query = $request->query->get('q');
+
+        return $this->render('hotel/index.html.twig', [
+            'q'      => $query,
+            'hotels' => $hotelSearchService->search($query),
+        ]);
+    }
+
     #[Route('/', name: 'app_hotel_index', methods: ['GET'])]
     public function index(HotelRepository $hotelRepository): Response
     {

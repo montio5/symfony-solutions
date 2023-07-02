@@ -39,6 +39,20 @@ class HotelRepository extends ServiceEntityRepository
         }
     }
 
+    public function searchByName($hotelNamePart) {
+
+        $qb = $this->createQueryBuilder('h');
+
+        return $qb
+            ->andWhere(
+                $qb->expr()->like('h.name', ':name')
+            )
+            ->setParameter('name', "%$hotelNamePart%")
+            ->orderBy('h.name', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Hotel[] Returns an array of Hotel objects
 //     */
