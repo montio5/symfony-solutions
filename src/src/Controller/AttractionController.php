@@ -14,7 +14,6 @@ class AttractionController extends AbstractController
     #[Route('/attraction', name: 'app_attraction')]
     public function index(AttractionRepository $attractionRepository): Response
     {
-        #some changes
         return $this->render('attraction/index.html.twig', [
             'attractions' => $attractionRepository->findAll(),
         ]);
