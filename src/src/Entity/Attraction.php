@@ -2,13 +2,17 @@
 
 namespace App\Entity;
 
+use App\Model\TimeLoggerInterface;
+use App\Model\TimeLoggerTrait;
+use App\Model\UserLoggerInterface;
+use App\Model\UserLoggerTrait;
 use App\Repository\AttractionRepository;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
 #[ORM\Entity(repositoryClass: AttractionRepository::class)]
-class Attraction
+class Attraction implements TimeLoggerInterface,UserLoggerInterface
 {
+    use TimeLoggerTrait;
+    use UserLoggerTrait;
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -17,20 +21,15 @@ class Attraction
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $shortDescription = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $short_desc = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $fullDescription = null;
+    #[ORM\Column(length: 1000)]
+    private ?string $full_desc = null;
 
     #[ORM\Column]
     private ?int $score = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createAt = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $updatedAt = null;
 
     public function getId(): ?int
     {
@@ -49,26 +48,26 @@ class Attraction
         return $this;
     }
 
-    public function getShortDescription(): ?string
+    public function getShortDesc(): ?string
     {
-        return $this->shortDescription;
+        return $this->short_desc;
     }
 
-    public function setShortDescription(?string $shortDescription): self
+    public function setShortDesc(?string $short_desc): self
     {
-        $this->shortDescription = $shortDescription;
+        $this->short_desc = $short_desc;
 
         return $this;
     }
 
-    public function getFullDescription(): ?string
+    public function getFullDesc(): ?string
     {
-        return $this->fullDescription;
+        return $this->full_desc;
     }
 
-    public function setFullDescription(?string $fullDescription): self
+    public function setFullDesc(string $full_desc): self
     {
-        $this->fullDescription = $fullDescription;
+        $this->full_desc = $full_desc;
 
         return $this;
     }
@@ -84,30 +83,4 @@ class Attraction
 
         return $this;
     }
-
-    public function getCreateAt(): ?\DateTimeImmutable
-    {
-        return $this->createAt;
-    }
-
-    public function setCreateAt(\DateTimeImmutable $createAt): self
-    {
-        $this->createAt = $createAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeImmutable
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-
 }
