@@ -1,0 +1,1 @@
+{"version":1,"defects":{"App\\Tests\\Integration\\HotelSearchTest::testSomething":4,"App\\Tests\\Integration\\HotelSearchTest::testHotelSearch":4},"times":{"App\\Tests\\Integration\\HotelSearchTest::testSomething":2.663,"App\\Tests\\Integration\\HotelSearchTest::testHotelSearch":3.204}}

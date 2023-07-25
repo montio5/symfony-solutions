@@ -13,21 +13,23 @@ class SearchServiceTest extends TestCase
     public function testSomething(): void
     {
         $hotel = new Hotel();
-        $hotel->setName("Hotel one");
+        $hotel->setName("Hotel 1");
+
         $hotelRepository = $this->createMock(HotelRepository::class);
-        $hotelRepository->expects($this->any())
+        $hotelRepository->expects($this->exactly(1))
             ->method('searchByName')
-            ->with("bbb")
+            ->with("1234")
             ->willReturn([$hotel]);
 
         $entityManager = $this->createMock(EntityManager::class);
-        $entityManager->expects($this->exactly(1))
-            ->method ('getRepository')
+        $entityManager->expects($this->any())
+            ->method('getRepository')
             ->with(Hotel::class)
             ->willReturn($hotelRepository);
 
         $searchService = new SearchService($entityManager);
-        $result=$searchService->search("bbb");
-        $this->assertContains($hotel,$result);
+        $result = $searchService->search("1234");
+
+        $this->assertContains($hotel, $result);
     }
 }
