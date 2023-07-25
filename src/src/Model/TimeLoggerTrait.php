@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Model;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -9,7 +8,7 @@ trait TimeLoggerTrait
     /**
      * @ORM\Column(type="datetime")
      */
-    protected $createAt;
+    protected $createdAt;
 
     /**
      * @ORM\Column(type="datetime")
@@ -30,7 +29,6 @@ trait TimeLoggerTrait
     public function getUpdatedAt(): \DateTimeImmutable
     {
         return $this->updatedAt;
-
     }
 
     public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
@@ -38,5 +36,5 @@ trait TimeLoggerTrait
         $this->updatedAt = $updatedAt;
         return $this;
     }
-
 }
+
