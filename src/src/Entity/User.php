@@ -16,7 +16,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     , TimeLoggerInterface
 {
     use TimeLoggerTrait;
-
+    public const ROLE_EDITOR="ROLE_EDITOR";
+    public const ROLE_HOTEL_OWNER="ROLE_HOTEL_OWNER";
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
