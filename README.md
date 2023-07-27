@@ -33,7 +33,7 @@ docker-compose up -d
 To rebuild the container as well:
 ```bash
 docker-compose up -d --build
-```
+``` 
 
 ### Start the docker-compose
 ```bash
