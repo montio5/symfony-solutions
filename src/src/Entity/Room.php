@@ -2,22 +2,33 @@
 
 namespace App\Entity;
 
+use App\Model\TimeLoggerInterface;
+use App\Model\TimeLoggerTrait;
+use App\Model\UserLoggerInterface;
+use App\Model\UserLoggerTrait;
 use App\Repository\RoomRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: RoomRepository::class)]
 class Room
+    implements TimeLoggerInterface,UserLoggerInterface
 {
+    use TimeLoggerTrait;
+    use UserLoggerTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $capacity = null;
+    #[ORM\Column]
+    #[Assert\NotBlank]
+    #[Assert\Positive]
+    private ?int $bed = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $type = null;
+    #[ORM\Column]
+    private ?bool $is_empty = null;
 
     #[ORM\ManyToOne(inversedBy: 'rooms')]
     #[ORM\JoinColumn(nullable: false)]
@@ -28,26 +39,26 @@ class Room
         return $this->id;
     }
 
-    public function getCapacity(): ?int
+    public function getBed(): ?int
     {
-        return $this->capacity;
+        return $this->bed;
     }
 
-    public function setCapacity(?int $capacity): self
+    public function setBed(int $bed): self
     {
-        $this->capacity = $capacity;
+        $this->bed = $bed;
 
         return $this;
     }
 
-    public function getType(): ?string
+    public function isIsEmpty(): ?bool
     {
-        return $this->type;
+        return $this->is_empty;
     }
 
-    public function setType(?string $type): self
+    public function setIsEmpty(bool $is_empty): self
     {
-        $this->type = $type;
+        $this->is_empty = $is_empty;
 
         return $this;
     }
@@ -63,4 +74,5 @@ class Room
 
         return $this;
     }
+
 }

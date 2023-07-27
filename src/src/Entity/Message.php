@@ -2,6 +2,10 @@
 
 namespace App\Entity;
 
+use App\Model\TimeLoggerInterface;
+use App\Model\TimeLoggerTrait;
+use App\Model\UserLoggerInterface;
+use App\Model\UserLoggerTrait;
 use App\Repository\MessageRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -9,7 +13,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MessageRepository::class)]
 class Message
+    implements TimeLoggerInterface ,UserLoggerInterface
 {
+    use TimeLoggerTrait;
+    use UserLoggerTrait;
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -17,44 +24,32 @@ class Message
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
-    #[Assert\Length(max: 255)]
-    private ?string $subject = null;
-
-    #[ORM\Column(type: Types::TEXT)]#
-    #[Assert\NotBlank]
-    #[Assert\Length(min: 10, max: 1000)]
-    private ?string $body = null;
+    #[Assert\Length(min: 3,max: 254)]
+    private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\Length(max: 255)]
     #[Assert\Email]
+    #[Assert\Length(min: 3,max: 254)]
     private ?string $email = null;
+
+    #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 3)]
+    private ?string $text = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getSubject(): ?string
+    public function getName(): ?string
     {
-        return $this->subject;
+        return $this->name;
     }
 
-    public function setSubject(string $subject): self
+    public function setName(string $name): self
     {
-        $this->subject = $subject;
-
-        return $this;
-    }
-
-    public function getBody(): ?string
-    {
-        return $this->body;
-    }
-
-    public function setBody(string $body): self
-    {
-        $this->body = $body;
+        $this->name = $name;
 
         return $this;
     }
@@ -67,6 +62,18 @@ class Message
     public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    public function getText(): ?string
+    {
+        return $this->text;
+    }
+
+    public function setText(string $text): self
+    {
+        $this->text = $text;
 
         return $this;
     }

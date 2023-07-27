@@ -32,3 +32,14 @@ services:
         factory: ["@app.menu_builder", mainMenu]
         tags:
             - { name: knp_menu.menu, alias: main }
+
+
+    App\Listeners\TimeLoggerListener:
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: preUpdate }
+
+    App\Listeners\UserLoggerListener:
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: preUpdate }
