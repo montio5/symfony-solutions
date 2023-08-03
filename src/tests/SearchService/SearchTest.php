@@ -1,38 +1,60 @@
 <?php
 
-namespace App\Tests\SearchService;
+//namespace App\Tests\Integration;
 
 use App\Entity\Hotel;
-use App\SearchService\Search;
+use App\Hotel\SearchService;
 use App\Repository\HotelRepository;
-use Doctrine\ORM\EntityManager;
-use PHPUnit\Framework\TestCase;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class SearchTest extends TestCase
+class HotelSearchTest extends KernelTestCase
 {
-    public function testSearchHotel(): void
+
+    protected static function getKernelClass(): string
     {
-        $hotel = new Hotel();
-        $hotel->setName("Hotel 1");
+        return \App\Kernel::class;
+    }
 
-        // mock the repository
-        $hotelRepository = $this->createMock(HotelRepository::class);
-        $hotelRepository->expects($this->exactly(1))
-            ->method('searchByName')
-            ->with("1234")
-            ->willReturn([$hotel]);
+    public function testSomething(): void
+    {
+        $kernel = self::bootKernel();
+        $this->assertSame('test', $kernel->getEnvironment());
 
-        // mock the entity manager
-        $entityManager = $this->createMock(EntityManager::class);
-        $entityManager->expects($this->exactly(1))
-            ->method('getRepository')
-            ->with(Hotel::class)
-            ->willReturn($hotelRepository);
 
-        $searchService = new Search($entityManager);
-        $result = $searchService->searchHotel("1234");
+        /** @var EntityManagerInterface $entityManager */
+        $entityManager = static::getContainer()->get(EntityManagerInterface::class);
+        $hotelRepo = $entityManager->getRepository(Hotel::class);
 
-        $this->assertContains($hotel, $result);
-//        $this->assertTrue(true);
+
+        $hotel1 = new Hotel();
+        $hotel1->setName("abcd");
+        $hotel1->setAddress("some address");
+        $hotel1->setPhone("some address");
+        $hotel1->setEmail("mont@gmail.com");
+
+        $hotel2 = new Hotel();
+        $hotel2->setName("cdef");
+        $hotel2->setAddress("some address");
+        $hotel2->setPhone("some address");
+        $hotel2->setEmail("mont@gmail.com");
+
+        $hotelRepo->save($hotel1);
+        $hotelRepo->save($hotel2, true);
+
+        $hotelSearchService = static::getContainer()->get(SearchService::class);
+        $this->assertInstanceOf(SearchService::class, $hotelSearchService);
+
+        $result = $hotelSearchService->search("ab");
+        $this->assertContains($hotel1, $result);
+        $this->assertNotContains($hotel2, $result);
+
+        $result = $hotelSearchService->search("ef");
+        $this->assertContains($hotel2, $result);
+        $this->assertNotContains($hotel1, $result);
+
+        $result = $hotelSearchService->search("cd");
+        $this->assertContains($hotel1, $result);
+        $this->assertContains($hotel2, $result);
     }
 }
