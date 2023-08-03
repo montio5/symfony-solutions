@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Tests\Hotel;
 
 use App\Entity\Hotel;

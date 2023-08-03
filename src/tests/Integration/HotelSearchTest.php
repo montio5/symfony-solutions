@@ -4,11 +4,13 @@ namespace App\Tests\Integration;
 
 use App\Entity\Hotel;
 use App\Hotel\SearchService;
+use App\Repository\HotelRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class HotelSearchTest extends KernelTestCase
 {
+
     protected static function getKernelClass(): string
     {
         return \App\Kernel::class;
@@ -19,16 +21,23 @@ class HotelSearchTest extends KernelTestCase
         $kernel = self::bootKernel();
         $this->assertSame('test', $kernel->getEnvironment());
 
+
+        /** @var EntityManagerInterface $entityManager */
         $entityManager = static::getContainer()->get(EntityManagerInterface::class);
         $hotelRepo = $entityManager->getRepository(Hotel::class);
+
 
         $hotel1 = new Hotel();
         $hotel1->setName("abcd");
         $hotel1->setAddress("some address");
+        $hotel1->setPhone("654654");
+        $hotel1->setEmail("test@gmail.com");
 
         $hotel2 = new Hotel();
         $hotel2->setName("cdef");
         $hotel2->setAddress("some address");
+        $hotel2->setPhone("654654");
+        $hotel2->setEmail("admin@gmail.com");
 
         $hotelRepo->save($hotel1);
         $hotelRepo->save($hotel2, true);
@@ -38,9 +47,11 @@ class HotelSearchTest extends KernelTestCase
 
         $result = $hotelSearchService->search("ab");
         $this->assertContains($hotel1, $result);
+        $this->assertNotContains($hotel2, $result);
 
         $result = $hotelSearchService->search("ef");
         $this->assertContains($hotel2, $result);
+        $this->assertNotContains($hotel1, $result);
 
         $result = $hotelSearchService->search("cd");
         $this->assertContains($hotel1, $result);
