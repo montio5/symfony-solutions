@@ -15,15 +15,13 @@ class HotelTest extends WebTestCase
         $crawler = $client->request('GET', '/hotel/');
 
         $entityManager = static::getContainer()->get(EntityManagerInterface::class);
-        /**
-         * @var HotelRepository $hotelRepo
-         */
+        /** @var HotelRepository $hotelRepo */
         $hotelRepo = $entityManager->getRepository(Hotel::class);
 
         $allHotels = $hotelRepo->findAll();
 
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1', 'Tehran Gardesh');
+        $this->assertSelectorTextContains('h1', 'Hotel index');
 
         $rows = $crawler->filter('table > tbody > tr');
         $this->assertCount(count($allHotels), $rows);
