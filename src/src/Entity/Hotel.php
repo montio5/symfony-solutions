@@ -14,7 +14,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 #[ORM\Entity(repositoryClass: HotelRepository::class)]
-#[Gedmo\SoftDeleteable(fieldName:"deletedAt")]
 class Hotel implements TimeLoggerInterface,UserLoggerInterface
 {
     use TimeLoggerTrait;
@@ -30,8 +29,6 @@ class Hotel implements TimeLoggerInterface,UserLoggerInterface
     #[Assert\Length(min: 3,max: 254)]
     private ?string $name = null;
 
-    #[ORM\Column(type: "datetime",nullable: true)]
-    private \DateTime $deletedAt;
 
     #[ORM\Column(length: 100)]
     #[Assert\NotBlank]
@@ -126,18 +123,6 @@ class Hotel implements TimeLoggerInterface,UserLoggerInterface
 
         return $this;
     }
-    public function getDeletedAt()
-    {
-        return $this->deletedAt;
-    }
-
-    public function setDeletedAt(\DateTime $dateTime): self
-    {
-        $this->deletedAt = $dateTime;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Room>
      */
