@@ -55,6 +55,8 @@ class Hotel implements TimeLoggerInterface,UserLoggerInterface
     #[Assert\NotBlank]
     private Collection $rooms;
 
+    #[ORM\ManyToOne(inversedBy: 'hotels')]
+    private ?User $owner = null;
 
     public function __construct()
     {
@@ -77,7 +79,17 @@ class Hotel implements TimeLoggerInterface,UserLoggerInterface
 
         return $this;
     }
+    public function getOwner(): ?User
+    {
+        return $this->owner;
+    }
 
+    public function setOwner(?User $owner): self
+    {
+        $this->owner = $owner;
+
+        return $this;
+    }
     public function getPhone(): ?string
     {
         return $this->phone;
