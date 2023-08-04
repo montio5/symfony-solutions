@@ -20,7 +20,7 @@ class UserCrudController extends AbstractCrudController
         return [
             IdField::new('id'),
             TextField::new('email'),
-            ChoiceField::new('roles')
+//            ChoiceField::new('roles')
         ];
     }
 }
