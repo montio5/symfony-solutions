@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+
 #[Route('/{_locale}/hotel')]
 class HotelController extends AbstractController
 {
@@ -78,7 +79,6 @@ class HotelController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_hotel_delete', methods: ['POST'])]
-//    #[IsGranted("ROLE_HOTEL_OWNER")]
     #[IsGranted("DELETE", "hotel")]
     public function delete(Request $request, Hotel $hotel, HotelRepository $hotelRepository): Response
     {
